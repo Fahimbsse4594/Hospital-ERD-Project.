@@ -1,6 +1,6 @@
-# Hospital Management System (HMS) Entity-Relationship Diagram (ERD)
+## Hospital Management System (HMS) Entity-Relationship Diagram (ERD)
 
-## Table of Contents
+# Table of Contents
 
 # Project Overview
 
@@ -21,71 +21,68 @@ This repository contains the Entity-Relationship Diagram (ERD) for a conceptual 
 
 This project was developed as a fundamental exercise in database design, aiming to achieve Third Normal Form (3NF) and ensure data integrity across all hospital operations.
 
-# 2. Key Entities and Relationships
+Key Entities in the ER Diagram
+# 1. Hospital Entity
 
-The ERD models the following primary entities:
+Description: This entity represents the primary institution that hosts the system. It functions as the top-level entity to which all departments belong.
 
-Entity
 
-Description
 
-Key Relationships
+Primary Key: HospitalID.
 
-Hospital
 
-The central facility entity, linked to its physical location.
+Key Attributes: It tracks the official Name and general Info of the hospital. The Address is modeled as a Composite attribute, decomposed into atomic fields like City, State, and Pincode to facilitate structured queries.
 
- 1:M with Dept
 
-# Dept (Department)
+Relationship: It has a One-to-Many (1:N) relationship with the Department entity.
 
-Organizational units (e.g., Emergency, Cardiology, ICU) within the hospital.
 
-M:1 with Hospital, 1:M with Doctor
+# 2. Department (Dept) Entity
 
-# Doctor
+Description: Departments define the organizational units within the hospital, such as Cardiology, Emergency, or Radiology. This entity is crucial for connecting the hospital structure to the staff and patients.
 
-Medical professionals with specific specialties and contact details.
 
-M:1 with Dept
 
-# Patient
+Primary Key: DeptID.
 
-Individuals admitted or registered for services.
 
-M:M with Doctor (via an implicit relationship entity in the diagram)
 
-# Staff
+Key Attributes: Key information includes the department's Name, Location, and InternalPhoneNo. It specifies the Type of department, such as 'Emergency', 'Inpatient', or 'OPD'.
 
-Other non-doctor employees (e.g., nurses, administrative).
 
-M:1 with Dept
 
-# Core Relationships
+Relationship: It links back to the Hospital via the HospitalID Foreign Key, and has a One-to-Many (1:N) relationship with the Doctor entity.
 
-Hospital to Department (1:M): One Hospital manages multiple Departments.
 
-Department to Doctor (1:M): One Department employs multiple Doctors.
 
-Doctor to Patient (M:M): A Doctor can treat multiple Patients, and a Patient can be treated by multiple Doctors (representing consultations/treatment episodes).
+# 3. Doctor Entity
 
-# 3. Design Scope and Goal
+Description: This entity represents the medical professionals who treat patients and work within a specific department.
 
-The primary goal of this ERD is to logically organize the data required for:
 
-Staff and Resource Allocation: Tracking which doctors, staff, and departments belong to which hospital location.
+Primary Key: DoctorID.
 
-Patient Identification: Capturing essential patient demographic and identification details (MR_No, Date of Birth, Gender, Address).
 
-Organizational Structure: Modeling the internal structure of the hospital, separating departments into types (e.g., "Emergency," "Intensive Care," "Specialty Wards").
 
-# 4. Design Decisions
+Key Attributes: The doctor's Name is a Composite attribute (broken down into FName and LName). Other details include Designation and their medical Specialization (e.g., 'Pediatrics', 'Oncology'). The Contact No is modeled as a Multivalued attribute, handled in a separate table (Doctor_Phone) to comply with First Normal Form (1NF).
 
-Composite Attributes: Attributes like Address and Phone No are modeled as composite, recognizing that they are composed of several sub-attributes (e.g., City, Address Line 1, L.Name, F.Name).
 
-Multivalued Attributes: Specialty/Wards is modeled to accommodate a Department having multiple types of specialty wards.
 
-Partial Dependency: The diagram shows the decomposition of complex real-world relationships into simple, normalized structures for efficient querying and data maintenance.
+Relationship: It links to the Department via a Foreign Key (DeptID) and participates in a Many-to-Many (M:N) relationship with the Patient entity, which is resolved via a linking relationship like "Treat" or "Admitted".
+
+
+# 4. Patient Entity
+
+Description: This entity represents the individuals receiving care at the hospital and stores their biographical and basic clinical data.
+
+
+Primary Key: MR_No (Medical Record Number).
+
+
+Key Attributes: Both Name and Address are Composite attributes. Simple attributes include DateOfBirth, Gender, BloodType, a general History text field, and an alternative FileNo.
+
+
+Relationship: It participates in the Many-to-Many (M:N) relationship with the Doctor entity, capturing treatment and admission records.
 
 # 5. How to View the Diagram
 
